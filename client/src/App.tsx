@@ -1,6 +1,6 @@
 import { Box, ThemeProvider } from "@mui/material";
 import "./App.css";
-import Hello from "./components/Hello";
+import AppRoutes from "./routes/AppRoutes";
 import { theme } from "./theme";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
         height={"100%"}
         width={"100%"}
       >
-        <Hello />
+        <AppRoutes />
       </Box>
     </ThemeProvider>
   );
