@@ -1,10 +1,20 @@
+import { Box, ThemeProvider } from "@mui/material";
 import "./App.css";
+import Hello from "./components/Hello";
+import { theme } from "./theme";
 
 function App() {
   return (
-    <>
-      <h1>Projeto Previsão do Tempo</h1>
-    </>
+    <ThemeProvider
+      theme={theme}
+      defaultMode="system"
+      disableTransitionOnChange
+      noSsr
+    >
+      <Box bgcolor={"background.default"} height={"100%"} width={"100%"}>
+        <Hello />
+      </Box>
+    </ThemeProvider>
   );
 }
 
