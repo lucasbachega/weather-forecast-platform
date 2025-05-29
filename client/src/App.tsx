@@ -1,26 +1,25 @@
-import { Box, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
+import { Provider } from "react-redux";
 import "./App.css";
+import AppContainer from "./components/layout/AppContainer";
 import AppRoutes from "./routes/AppRoutes";
+import { store } from "./store";
 import { theme } from "./theme";
 
 function App() {
   return (
-    <ThemeProvider
-      theme={theme}
-      defaultMode="system"
-      disableTransitionOnChange
-      noSsr
-    >
-      <Box
-        component={"main"}
-        color={"text.primary"}
-        bgcolor={"background.default"}
-        height={"100%"}
-        width={"100%"}
+    <Provider store={store}>
+      <ThemeProvider
+        theme={theme}
+        defaultMode="system"
+        disableTransitionOnChange
+        noSsr
       >
-        <AppRoutes />
-      </Box>
-    </ThemeProvider>
+        <AppContainer>
+          <AppRoutes />
+        </AppContainer>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
