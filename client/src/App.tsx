@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Provider } from "react-redux";
 import "./App.css";
 import AppContainer from "./components/layout/AppContainer";
@@ -15,6 +15,7 @@ function App() {
         disableTransitionOnChange
         noSsr
       >
+        <CssBaseline />
         <AppContainer>
           <AppRoutes />
         </AppContainer>
