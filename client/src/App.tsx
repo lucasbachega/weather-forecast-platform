@@ -11,7 +11,13 @@ function App() {
       disableTransitionOnChange
       noSsr
     >
-      <Box bgcolor={"background.default"} height={"100%"} width={"100%"}>
+      <Box
+        component={"main"}
+        color={"text.primary"}
+        bgcolor={"background.default"}
+        height={"100%"}
+        width={"100%"}
+      >
         <Hello />
       </Box>
     </ThemeProvider>
