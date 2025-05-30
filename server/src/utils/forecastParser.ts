@@ -1,12 +1,19 @@
+import { isSameDay, parseISO } from "date-fns";
+
 export function groupForecastByDay(forecastList: any[]) {
   const grouped: Record<string, any[]> = {};
+  const today = new Date();
 
   for (const entry of forecastList) {
-    const date = entry.dt_txt.split(' ')[0]; // "2025-06-01"
-    if (!grouped[date]) {
-      grouped[date] = [];
+    const dateObj = parseISO(entry.dt_txt);
+
+    if (isSameDay(dateObj, today)) continue; // Ignora entradas do mesmo dia de hoje
+
+    const dateKey = entry.dt_txt.split(" ")[0]; // "2025-06-01"
+    if (!grouped[dateKey]) {
+      grouped[dateKey] = [];
     }
-    grouped[date].push(entry);
+    grouped[dateKey].push(entry);
   }
 
   return Object.entries(grouped).map(([date, entries]) => {
