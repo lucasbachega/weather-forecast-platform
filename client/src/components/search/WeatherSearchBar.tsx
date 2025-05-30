@@ -7,6 +7,7 @@ import {
   Paper,
 } from "@mui/material";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import api from "../../services/api";
 import { setSelectedQuery } from "../../store/reducers/weatherSlice";
@@ -24,7 +25,8 @@ async function fetchCitySuggestions(query: string) {
 
 const WeatherSearchBar = () => {
   const dispatch = useAppDispatch();
-  const [query, setQuery] = useState("");
+  const [params, setParams] = useSearchParams();
+  const [query, setQuery] = useState(params.get("city") || "");
   const [suggestions, setSuggestions] = useState([]);
   const [focusing, setFocusing] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -46,11 +48,39 @@ const WeatherSearchBar = () => {
     return () => clearTimeout(delayDebounce);
   }, [query]);
 
-  const handleSelectSuggestion = useCallback((value: Suggestion) => {
-    dispatch(setSelectedQuery(value?.description));
-    setFocusing(false);
-    setQuery(value?.description);
+  useEffect(() => {
+    if (params.get("city")) {
+      dispatch(setSelectedQuery(params.get("city") || ""));
+    }
   }, []);
+
+  const submitQuery = useCallback(
+    (value: string) => {
+      const trimmed = value.trim();
+      if (!trimmed) return;
+
+      dispatch(setSelectedQuery(trimmed));
+      setFocusing(false);
+      setQuery(trimmed);
+      params.set("city", trimmed);
+      setParams(params);
+    },
+    [params]
+  );
+
+  const handleSelectSuggestion = useCallback(
+    (value: Suggestion) => {
+      submitQuery(value.description);
+    },
+    [submitQuery]
+  );
+
+  const handleClear = () => {
+    setQuery("");
+    inputRef?.current?.focus?.();
+    params.delete("city");
+    setParams(params);
+  };
 
   return (
     <>
@@ -63,7 +93,9 @@ const WeatherSearchBar = () => {
           height: 50,
           maxWidth: 600,
           minWidth: 500,
-          boxShadow: `0 0px 3px  rgba(34, 105, 239, 0.2)`,
+          boxShadow: focusing
+            ? `0 0px 15px rgba(34, 105, 239, 0.2)`
+            : `0 0px 3px rgba(34, 105, 239, 0.2)`,
           position: "relative",
           borderTopLeftRadius: visibleSuggestions ? 25 : 100,
           borderTopRightRadius: visibleSuggestions ? 25 : 100,
@@ -77,6 +109,12 @@ const WeatherSearchBar = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocusing(true)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              submitQuery(query);
+            }
+          }}
           startAdornment={
             <InputAdornment position="start">
               <SearchOutlined />
@@ -85,12 +123,7 @@ const WeatherSearchBar = () => {
           endAdornment={
             Boolean(query) && (
               <InputAdornment position="end">
-                <IconButton
-                  onClick={() => {
-                    setQuery("");
-                    inputRef?.current?.focus?.();
-                  }}
-                >
+                <IconButton onClick={handleClear}>
                   <Close />
                 </IconButton>
               </InputAdornment>

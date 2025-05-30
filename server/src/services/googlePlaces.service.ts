@@ -20,3 +20,28 @@ export async function getCitySuggestions(input: string) {
     place_id: p.place_id,
   }));
 }
+
+export async function getCityByCoordinates(
+  lat: number,
+  lng: number
+): Promise<string | null> {
+  const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY!;
+  const response = await axios.get(
+    "https://maps.googleapis.com/maps/api/geocode/json",
+    {
+      params: {
+        latlng: `${lat},${lng}`,
+        key: GOOGLE_API_KEY,
+        language: "pt-BR",
+        result_type: "locality",
+      },
+    }
+  );
+
+  const result = response.data.results?.[0];
+  const city = result?.address_components?.find((comp: any) =>
+    comp.types.includes("locality")
+  )?.long_name;
+
+  return city ?? null;
+}

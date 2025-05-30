@@ -1,23 +1,46 @@
 import { Box, CircularProgress, Grid, Stack } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
-import { fetchWeatherData } from "../../../store/reducers/weatherSlice";
+import {
+  fetchWeatherData,
+  setSelectedQuery,
+} from "../../../store/reducers/weatherSlice";
+import { getUserCurrentCity } from "../../../utils/geolocation";
 import ErrorInfo from "./layout/ErrorInfo";
 import WeatherDetails from "./weather/WeatherDetails";
 
 const DetailsContainer = () => {
   const dispatch = useAppDispatch();
+  const [params] = useSearchParams();
+  const [loadingCurrentPosition, setLoadingCurrentPosition] = useState(false);
   const { error, loading, selectedQuery, weather } = useAppSelector(
     (state) => state.weather
   );
 
+  const isReadyToRender =
+    !loading && !loadingCurrentPosition && !!selectedQuery && !!weather;
+
+  const detectUserCity = async () => {
+    setLoadingCurrentPosition(true);
+    const city = await getUserCurrentCity();
+    if (!selectedQuery && city) {
+      dispatch(setSelectedQuery(city));
+    }
+    setLoadingCurrentPosition(false);
+  };
+
   useEffect(() => {
     if (selectedQuery) {
       dispatch(fetchWeatherData(selectedQuery));
+    } else {
+      if (!params.get("city")) {
+        detectUserCity();
+      }
     }
   }, [selectedQuery]);
 
-  if (loading)
+  if (!isReadyToRender) {
     return (
       <Stack
         width={"100%"}
@@ -28,14 +51,17 @@ const DetailsContainer = () => {
         <CircularProgress />
       </Stack>
     );
-
+  }
   if (error) return <ErrorInfo error={error} />;
-  if (!selectedQuery || !weather) return;
+
+  if (!selectedQuery && !weather && !loading && !loadingCurrentPosition) {
+    return null;
+  }
 
   return (
     <Grid spacing={2} container size={12} mt={"30px"}>
       <Grid size={5} spacing={2}>
-        <WeatherDetails data={weather} />
+        {weather && <WeatherDetails data={weather} />}
       </Grid>
       <Grid spacing={2} size={7} container>
         <Grid size={12}>
