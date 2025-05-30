@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid, Stack } from "@mui/material";
+import { CircularProgress, Grid, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
@@ -7,6 +7,7 @@ import {
   setSelectedQuery,
 } from "../../../store/reducers/weatherSlice";
 import { getUserCurrentCity } from "../../../utils/geolocation";
+import ForecastDetails from "./forecast/ForecastDetails";
 import ErrorInfo from "./layout/ErrorInfo";
 import WeatherDetails from "./weather/WeatherDetails";
 
@@ -14,7 +15,7 @@ const DetailsContainer = () => {
   const dispatch = useAppDispatch();
   const [params] = useSearchParams();
   const [loadingCurrentPosition, setLoadingCurrentPosition] = useState(false);
-  const { error, loading, selectedQuery, weather } = useAppSelector(
+  const { error, loading, selectedQuery, weather, forecast } = useAppSelector(
     (state) => state.weather
   );
 
@@ -65,11 +66,11 @@ const DetailsContainer = () => {
       </Grid>
       <Grid spacing={2} size={7} container>
         <Grid size={12}>
-          <Box border={1} p={3} height={300}></Box>
+          <ForecastDetails data={forecast} />
         </Grid>
-        <Grid size={12}>
+        {/* <Grid size={12}>
           <Box border={1} p={3} height={200}></Box>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   );

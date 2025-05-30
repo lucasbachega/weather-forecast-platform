@@ -18,3 +18,9 @@ export function formatDate(date: string | number | Date): string {
 
   return format(d, "d 'de' MMM 'de' yyyy", { locale: ptBR }); // 23 de jan. de 2024
 }
+
+export function formatWeekday(date: string | number | Date): string {
+  const d = typeof date === "number" ? new Date(date * 1000) : new Date(date);
+  const formatted = format(d, "EEE", { locale: ptBR }).toLowerCase();
+  return formatted.slice(0, 3);
+}
