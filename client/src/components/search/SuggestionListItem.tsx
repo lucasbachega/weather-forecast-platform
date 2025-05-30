@@ -22,6 +22,9 @@ const SuggestionListItem = ({
           place_id,
         })
       }
+      sx={{
+        transition: "none",
+      }}
     >
       <ListItemIcon>
         {isHistory ? (

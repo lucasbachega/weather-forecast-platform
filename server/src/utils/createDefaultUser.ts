@@ -10,7 +10,7 @@ export async function createDefaultUser() {
   const hashed = await bcrypt.hash("senha123", 10);
 
   await User.create({
-    name: "Admin",
+    name: "Lucas",
     email: "admin@email.com",
     password: hashed,
   });

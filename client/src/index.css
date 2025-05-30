@@ -5,6 +5,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f1f3fd;
 }
 
 
@@ -14,6 +15,7 @@ body {
   box-sizing: border-box;
   max-width: 100vw;
   overflow-x: hidden;
+  background-color: #f1f3fd;
 }
 
 .text-gradient {

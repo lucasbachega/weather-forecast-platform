@@ -42,10 +42,11 @@ const SuggestionsList = ({ suggestions = [], onSelect = () => {} }: Props) => {
       sx={{
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
         borderTop: 1,
         borderColor: "divider",
+        boxShadow: `0 5px 10px rgba(34, 105, 239, 0.3)`,
       }}
       bgcolor={"background.default"}
       position={"absolute"}

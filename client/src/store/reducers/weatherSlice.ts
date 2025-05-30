@@ -47,9 +47,10 @@ export const fetchWeatherData = createAsyncThunk(
         getWeatherByCity(city),
         getForecastByCity(city),
       ]);
-
+      console.log("weather: ", weather);
       return { city, weather, forecast };
     } catch (error) {
+      console.log(error)
       return rejectWithValue("Erro ao buscar dados da previsão do tempo.");
     }
   }
@@ -83,6 +84,7 @@ const weatherSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchWeatherData.fulfilled, (state, action) => {
+        console.log("fulfilled: ", action.payload.weather);
         state.selectedQuery = action.payload.city;
         state.weather = action.payload.weather;
         state.forecast = action.payload.forecast;

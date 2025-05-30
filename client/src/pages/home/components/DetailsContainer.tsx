@@ -21,7 +21,10 @@ const DetailsContainer = () => {
   );
 
   const isReadyToRender =
-    !loading && !loadingCurrentPosition && !!selectedQuery && !!weather;
+    !loading &&
+    !loadingCurrentPosition &&
+    Boolean(selectedQuery) &&
+    Boolean(weather);
 
   const detectUserCity = async () => {
     setLoadingCurrentPosition(true);

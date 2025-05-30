@@ -15,6 +15,7 @@ export function getUserCoordinates(): Promise<{ lat: number; lng: number }> {
         });
       },
       (error) => {
+        console.log(error);
         reject(new Error("Erro ao obter localização"));
       }
     );

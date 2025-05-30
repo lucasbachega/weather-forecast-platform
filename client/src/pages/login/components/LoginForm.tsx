@@ -6,6 +6,7 @@ import {
   IconButton,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -48,6 +49,18 @@ const LoginForm = () => {
 
   return (
     <FormBox loading={loading} onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Typography textAlign={"center"} variant="h5" fontWeight={600}>
+        Fazer login
+      </Typography>
+      <Typography
+        mb={2}
+        textAlign={"center"}
+        variant="body1"
+        color="textSecondary"
+        fontWeight={500}
+      >
+        Insira seu e-mail e senha.
+      </Typography>
       <TextField
         value={email}
         onChange={(e) => setEmail(e.target.value)}

@@ -16,6 +16,8 @@ router.get(
       const city = req.params.city;
       const userId = (req as any).userId;
 
+      console.log('userId: ', userId)
+
       const weather = await getWeatherByCity(city);
 
       await SearchHistory.updateOne(

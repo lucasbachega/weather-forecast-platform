@@ -16,7 +16,7 @@ const FormBox = ({ children, loading, ...rest }: Props & PaperProps) => {
         overflow: "hidden",
         width: "100%",
         p: 3,
-        boxShadow: "0 1px 5px rgba(0,0,0,.15)",
+        boxShadow: "0 0px 10px rgba(34, 105, 239, 0.2)",
         borderRadius: 2,
         ...rest?.sx,
       }}

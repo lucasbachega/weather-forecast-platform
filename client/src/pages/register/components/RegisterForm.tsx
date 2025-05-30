@@ -6,12 +6,15 @@ import {
   IconButton,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../../../components/inputs/PasswordInput";
 import FormBox from "../../../components/layout/FormBox";
+import api from "../../../services/api";
+import { loginSuccess } from "../../../store/reducers/authSlice";
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -19,6 +22,7 @@ const RegisterForm = () => {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -26,10 +30,53 @@ const RegisterForm = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    try {
+      const res = await api.post("/auth/signup", {
+        name,
+        email,
+        password,
+      });
+
+      const { token, user } = res.data;
+
+      localStorage.setItem("token", token);
+      dispatch(loginSuccess(user));
+
+      navigate("/");
+    } catch (err: any) {
+      setError(
+        err.response.data.message || "Erro ao criar conta. Tente novamente."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <FormBox loading={loading} onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Typography textAlign={"center"} variant="h5" fontWeight={600}>
+        Criar conta
+      </Typography>
+      <Typography
+        mb={2}
+        textAlign={"center"}
+        variant="body1"
+        color="textSecondary"
+        fontWeight={500}
+      >
+        Informe seus dados
+      </Typography>
+      <TextField
+        autoFocus
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        margin="normal"
+        fullWidth
+        label="Nome"
+        required
+        disabled={loading}
+      />
       <TextField
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -69,6 +116,14 @@ const RegisterForm = () => {
       )}
 
       <Stack direction={"row"} gap={1} mt={2}>
+        <Button
+          LinkComponent={Link}
+          to="/login"
+          disabled={loading}
+          variant="text"
+        >
+          Fazer login
+        </Button>
         <Box flex={1} />
         <Button disabled={loading} type="submit" variant="contained">
           Criar
