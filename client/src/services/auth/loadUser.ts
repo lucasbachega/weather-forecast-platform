@@ -5,7 +5,7 @@ import api from "../api";
 export const loadUser = async (dispatch: AppDispatch) => {
   try {
     const res = await api.get("/auth/me");
-    dispatch(loginSuccess(res.data)); // token já está salvo
+    dispatch(loginSuccess(res.data));
     return true;
   } catch (err) {
     dispatch(logout());

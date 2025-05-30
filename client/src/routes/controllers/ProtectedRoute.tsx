@@ -1,9 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
-
-const isAuthenticated = () => {
-  return !!localStorage.getItem("token");
-};
+import { useAppSelector } from "../../hooks/reduxHooks";
+import { selectIsAuthenticated } from "../../store/reducers/authSlice";
 
 export const ProtectedRoute = () => {
-  return isAuthenticated() ? <Outlet /> : <Navigate to="/login" replace />;
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };

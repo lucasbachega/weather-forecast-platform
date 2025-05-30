@@ -1,24 +1,20 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Stack,
-  useColorScheme,
-} from "@mui/material";
+import { Box, CircularProgress, Stack } from "@mui/material";
 import { useEffect, useState, type ReactNode } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../hooks/reduxHooks";
 import { loadUser } from "../../services/auth/loadUser";
+import Header from "../header/Header";
 
 interface Props {
   children: ReactNode;
 }
 
 const AppContainer = ({ children }: Props) => {
-  const { setMode } = useColorScheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     (async () => {
@@ -48,8 +44,7 @@ const AppContainer = ({ children }: Props) => {
         </Stack>
       ) : (
         <>
-          <Button onClick={() => setMode("light")}>Tema claro</Button>
-          <Button onClick={() => setMode("dark")}>Tema escuro</Button>
+          {isAuthenticated && <Header />}
           {children}
         </>
       )}
