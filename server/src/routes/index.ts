@@ -7,7 +7,7 @@ import weatherRoutes from "./weather.routes";
 
 const router = Router();
 
-router.use("/auth", verifyToken, authRoutes);
+router.use("/auth", authRoutes);
 router.use("/weather", verifyToken, weatherRoutes);
 router.use("/places", verifyToken, placesRoutes);
 router.use("/history", verifyToken, searchHistoryRoutes);
