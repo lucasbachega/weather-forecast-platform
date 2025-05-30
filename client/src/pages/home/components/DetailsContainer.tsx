@@ -7,6 +7,7 @@ import {
   setSelectedQuery,
 } from "../../../store/reducers/weatherSlice";
 import { getUserCurrentCity } from "../../../utils/geolocation";
+import DailyMessageAlert from "./DailyMessageAlert";
 import ForecastDetails from "./forecast/ForecastDetails";
 import ErrorInfo from "./layout/ErrorInfo";
 import WeatherDetails from "./weather/WeatherDetails";
@@ -61,16 +62,10 @@ const DetailsContainer = () => {
 
   return (
     <Grid spacing={2} container size={12} mt={"30px"}>
-      <Grid size={5} spacing={2}>
-        {weather && <WeatherDetails data={weather} />}
-      </Grid>
-      <Grid spacing={2} size={7} container>
-        <Grid size={12}>
-          <ForecastDetails data={forecast} />
-        </Grid>
-        {/* <Grid size={12}>
-          <Box border={1} p={3} height={200}></Box>
-        </Grid> */}
+      <Grid size={5}>{weather && <WeatherDetails data={weather} />}</Grid>
+      <Grid size={7} container>
+        <DailyMessageAlert data={weather} />
+        <ForecastDetails data={forecast} />
       </Grid>
     </Grid>
   );
