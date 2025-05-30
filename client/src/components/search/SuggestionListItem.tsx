@@ -3,9 +3,24 @@ import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { memo } from "react";
 import type { Suggestion } from "./types";
 
-const SuggestionListItem = ({ description }: Suggestion) => {
+type Props = {
+  onClick: Function;
+};
+
+const SuggestionListItem = ({
+  description,
+  place_id,
+  onClick = () => {},
+}: Suggestion & Props) => {
   return (
-    <ListItemButton>
+    <ListItemButton
+      onClick={() =>
+        onClick({
+          description,
+          place_id,
+        })
+      }
+    >
       <ListItemIcon>
         <LocationOnOutlined color="primary" />
       </ListItemIcon>

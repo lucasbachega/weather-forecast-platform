@@ -1,5 +1,6 @@
 import { Container, Grid, Typography } from "@mui/material";
 import WeatherSearchBar from "../../components/search/WeatherSearchBar";
+import DetailsContainer from "./components/DetailsContainer";
 
 export default () => {
   return (
@@ -16,10 +17,11 @@ export default () => {
       >
         Vamos ver se hoje dá praia ou cobertor?
       </Typography>
-      <Grid mt={'25px'} width={'100%'} container>
-        <Grid size={12} justifyItems={'center'}>
+      <Grid mt={"25px"} width={"100%"} container>
+        <Grid size={12} justifyItems={"center"}>
           <WeatherSearchBar />
         </Grid>
+        <DetailsContainer />
       </Grid>
     </Container>
   );

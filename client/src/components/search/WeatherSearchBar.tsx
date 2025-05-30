@@ -1,15 +1,17 @@
 import { Close, SearchOutlined } from "@mui/icons-material";
 import {
-    Backdrop,
-    IconButton,
-    InputAdornment,
-    InputBase,
-    Paper,
+  Backdrop,
+  IconButton,
+  InputAdornment,
+  InputBase,
+  Paper,
 } from "@mui/material";
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import api from "../../services/api";
+import { setSelectedQuery } from "../../store/reducers/weatherSlice";
 import SuggestionsList from "./SuggestionsList";
+import type { Suggestion } from "./types";
 
 async function fetchCitySuggestions(query: string) {
   const res = await api.get("/places/autocomplete", {
@@ -25,6 +27,7 @@ const WeatherSearchBar = () => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [focusing, setFocusing] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const visibleSuggestions = useMemo(
     () => Boolean(suggestions.length) && Boolean(query?.trim()) && focusing,
@@ -33,7 +36,7 @@ const WeatherSearchBar = () => {
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
-      if (query.trim().length > 1) {
+      if (query.trim().length > 1 && focusing) {
         fetchCitySuggestions(query).then(setSuggestions).catch(console.error);
       } else {
         setSuggestions([]);
@@ -42,6 +45,12 @@ const WeatherSearchBar = () => {
 
     return () => clearTimeout(delayDebounce);
   }, [query]);
+
+  const handleSelectSuggestion = useCallback((value: Suggestion) => {
+    dispatch(setSelectedQuery(value?.description));
+    setFocusing(false);
+    setQuery(value?.description);
+  }, []);
 
   return (
     <>
@@ -64,6 +73,7 @@ const WeatherSearchBar = () => {
         }}
       >
         <InputBase
+          inputRef={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocusing(true)}
@@ -75,7 +85,12 @@ const WeatherSearchBar = () => {
           endAdornment={
             Boolean(query) && (
               <InputAdornment position="end">
-                <IconButton onClick={() => setQuery("")}>
+                <IconButton
+                  onClick={() => {
+                    setQuery("");
+                    inputRef?.current?.focus?.();
+                  }}
+                >
                   <Close />
                 </IconButton>
               </InputAdornment>
@@ -88,7 +103,12 @@ const WeatherSearchBar = () => {
             width: "100%",
           }}
         />
-        {visibleSuggestions && <SuggestionsList suggestions={suggestions} />}
+        {visibleSuggestions && (
+          <SuggestionsList
+            suggestions={suggestions}
+            onSelect={handleSelectSuggestion}
+          />
+        )}
       </Paper>
       <Backdrop
         open={visibleSuggestions}

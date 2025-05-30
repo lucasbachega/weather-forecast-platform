@@ -5,12 +5,18 @@ import type { Suggestion } from "./types";
 
 interface Props {
   suggestions: Array<Suggestion>;
+  onSelect: Function;
 }
 
-const SuggestionsList = ({ suggestions = [] }: Props) => {
-  const renderItems = useCallback((item: Suggestion) => {
-    return <SuggestionListItem key={item.place_id} {...item} />;
-  }, []);
+const SuggestionsList = ({ suggestions = [], onSelect = () => {} }: Props) => {
+  const renderItems = useCallback(
+    (item: Suggestion) => {
+      return (
+        <SuggestionListItem key={item.place_id} onClick={onSelect} {...item} />
+      );
+    },
+    [onSelect]
+  );
 
   return (
     <Box
@@ -27,7 +33,8 @@ const SuggestionsList = ({ suggestions = [] }: Props) => {
       bgcolor={"background.default"}
       position={"absolute"}
       top={50}
-      height={300}
+      maxHeight={300}
+      overflow={"auto"}
       left={0}
       width={"100%"}
     >
