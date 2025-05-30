@@ -1,14 +1,17 @@
 import {
-    createAsyncThunk,
-    createSlice,
-    type PayloadAction,
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
 } from "@reduxjs/toolkit";
 import { getForecastByCity, getWeatherByCity } from "../../services/weather";
+import type {
+  IWeatherData
+} from "../../types/weather";
 
 interface WeatherState {
   selectedQuery: string | null;
   forecast: any | null;
-  weather: any | null;
+  weather: IWeatherData | null;
   loading: boolean;
   error: string | null;
 }

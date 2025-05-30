@@ -1,10 +1,11 @@
+import { formatCurrentWeatherData } from "../../utils/weather";
 import api from "../api";
 
 export async function getWeatherByCity(city: string) {
   const response = await api.get(`/weather/${city}`, {
     params: { city },
   });
-  return response.data;
+  return formatCurrentWeatherData(response.data);
 }
 
 export async function getForecastByCity(city: string) {
