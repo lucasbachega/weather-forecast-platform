@@ -3,10 +3,9 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
-
 //Login básico
 export const login = async (req: Request, res: Response) => {
+  const JWT_SECRET = process.env.JWT_SECRET;
   try {
     const { email, password } = req.body;
 
@@ -33,7 +32,7 @@ export const login = async (req: Request, res: Response) => {
       user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
-    res.status(500).json({ message: "Erro ao fazer login." });
+    res.status(500).json({ message: "Erro ao fazer login" });
   }
 };
 
