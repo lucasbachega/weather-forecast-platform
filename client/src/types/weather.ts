@@ -59,3 +59,9 @@ export interface IWeatherData {
   sunset: number;
   date: string;
 }
+
+export interface ISearchHistory {
+  userId: string;
+  query: string;
+  searchedAt: Date;
+}

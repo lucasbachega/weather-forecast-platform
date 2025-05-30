@@ -1,16 +1,18 @@
-import { LocationOnOutlined } from "@mui/icons-material";
+import { AccessTime, LocationOnOutlined } from "@mui/icons-material";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { memo } from "react";
 import type { Suggestion } from "./types";
 
 type Props = {
   onClick: Function;
+  isHistory?: boolean;
 };
 
 const SuggestionListItem = ({
   description,
   place_id,
   onClick = () => {},
+  isHistory = false,
 }: Suggestion & Props) => {
   return (
     <ListItemButton
@@ -22,7 +24,11 @@ const SuggestionListItem = ({
       }
     >
       <ListItemIcon>
-        <LocationOnOutlined color="primary" />
+        {isHistory ? (
+          <AccessTime color="action" />
+        ) : (
+          <LocationOnOutlined color="primary" />
+        )}
       </ListItemIcon>
       <ListItemText primary={description} />
     </ListItemButton>

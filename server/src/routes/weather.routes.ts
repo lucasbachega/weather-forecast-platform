@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import { applyCache } from "../decorators/applyCache";
+import { SearchHistory } from "../models/SearchHistory";
 import {
   getForecastByCity,
   getWeatherByCity,
@@ -9,10 +10,29 @@ import { groupForecastByDay } from "../utils/forecastParser";
 const router = Router();
 
 router.get(
-  "/:city",
+  "/city/:city",
   applyCache(async (req: Request, res: Response) => {
     try {
-      const weather = await getWeatherByCity(req.params.city);
+      const city = req.params.city;
+      const userId = (req as any).userId;
+
+      const weather = await getWeatherByCity(city);
+
+      await SearchHistory.updateOne(
+        {
+          query: city,
+          userId,
+        },
+        {
+          $set: {
+            searchedAt: new Date(),
+          },
+        },
+        {
+          upsert: true,
+        }
+      );
+
       res.json(weather);
     } catch (err) {
       console.error(err);

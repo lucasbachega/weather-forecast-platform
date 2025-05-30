@@ -1,5 +1,11 @@
-import { Box, List, Paper } from "@mui/material";
-import { useCallback } from "react";
+import { Box, List, Paper, Typography } from "@mui/material";
+import { memo, useCallback, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import {
+  fetchSearchHistory,
+  selectSortedSearchHistory,
+} from "../../store/reducers/weatherSlice";
+import HistoryList from "./HistoryList";
 import SuggestionListItem from "./SuggestionListItem";
 import type { Suggestion } from "./types";
 
@@ -9,6 +15,11 @@ interface Props {
 }
 
 const SuggestionsList = ({ suggestions = [], onSelect = () => {} }: Props) => {
+  const dispatch = useAppDispatch();
+  const history = useAppSelector(selectSortedSearchHistory);
+
+  const noOptions = !history.length && !suggestions.length;
+
   const renderItems = useCallback(
     (item: Suggestion) => {
       return (
@@ -17,6 +28,12 @@ const SuggestionsList = ({ suggestions = [], onSelect = () => {} }: Props) => {
     },
     [onSelect]
   );
+
+  useEffect(() => {
+    if (!suggestions?.length) {
+      dispatch(fetchSearchHistory());
+    }
+  }, []);
 
   return (
     <Box
@@ -38,9 +55,13 @@ const SuggestionsList = ({ suggestions = [], onSelect = () => {} }: Props) => {
       left={0}
       width={"100%"}
     >
+      {noOptions && <Typography m={5}>Nada encontrado</Typography>}
       <List>{suggestions.map(renderItems)}</List>
+      {!suggestions.length && (
+        <HistoryList history={history} onSelect={onSelect} />
+      )}
     </Box>
   );
 };
 
-export default SuggestionsList;
+export default memo(SuggestionsList);

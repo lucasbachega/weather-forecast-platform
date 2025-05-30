@@ -1,16 +1,19 @@
-import { Close, SearchOutlined } from "@mui/icons-material";
+import { Close, MyLocation, SearchOutlined } from "@mui/icons-material";
 import {
   Backdrop,
+  CircularProgress,
   IconButton,
   InputAdornment,
   InputBase,
   Paper,
+  Tooltip,
 } from "@mui/material";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import api from "../../services/api";
 import { setSelectedQuery } from "../../store/reducers/weatherSlice";
+import { getUserCurrentCity } from "../../utils/geolocation";
 import SuggestionsList from "./SuggestionsList";
 import type { Suggestion } from "./types";
 
@@ -29,21 +32,21 @@ const WeatherSearchBar = () => {
   const [query, setQuery] = useState(params.get("city") || "");
   const [suggestions, setSuggestions] = useState([]);
   const [focusing, setFocusing] = useState(false);
+  const [searching, setSearching] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const visibleSuggestions = useMemo(
-    () => Boolean(suggestions.length) && Boolean(query?.trim()) && focusing,
-    [suggestions.length, query, focusing]
-  );
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (query.trim().length > 1 && focusing) {
-        fetchCitySuggestions(query).then(setSuggestions).catch(console.error);
+        setSearching(true);
+        fetchCitySuggestions(query)
+          .then(setSuggestions)
+          .catch(console.error)
+          .finally(() => setSearching(false));
       } else {
         setSuggestions([]);
       }
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(delayDebounce);
   }, [query]);
@@ -64,6 +67,7 @@ const WeatherSearchBar = () => {
       setQuery(trimmed);
       params.set("city", trimmed);
       setParams(params);
+      setSearching(false);
     },
     [params]
   );
@@ -74,6 +78,14 @@ const WeatherSearchBar = () => {
     },
     [submitQuery]
   );
+
+  const handleClickMyLocation = async () => {
+    setSearching(true);
+    const city = await getUserCurrentCity();
+    if (city) {
+      submitQuery(city);
+    }
+  };
 
   const handleClear = () => {
     setQuery("");
@@ -94,13 +106,13 @@ const WeatherSearchBar = () => {
           maxWidth: 600,
           minWidth: 500,
           boxShadow: focusing
-            ? `0 0px 15px rgba(34, 105, 239, 0.2)`
+            ? `0 0px 20px rgba(34, 105, 239, 0.3)`
             : `0 0px 3px rgba(34, 105, 239, 0.2)`,
           position: "relative",
-          borderTopLeftRadius: visibleSuggestions ? 25 : 100,
-          borderTopRightRadius: visibleSuggestions ? 25 : 100,
-          borderBottomRightRadius: visibleSuggestions ? 0 : 100,
-          borderBottomLeftRadius: visibleSuggestions ? 0 : 100,
+          borderTopLeftRadius: focusing ? 25 : 100,
+          borderTopRightRadius: focusing ? 25 : 100,
+          borderBottomRightRadius: focusing ? 0 : 100,
+          borderBottomLeftRadius: focusing ? 0 : 100,
           zIndex: 100,
         }}
       >
@@ -121,13 +133,30 @@ const WeatherSearchBar = () => {
             </InputAdornment>
           }
           endAdornment={
-            Boolean(query) && (
-              <InputAdornment position="end">
+            <InputAdornment position="end">
+              {searching && (
+                <CircularProgress
+                  size={20}
+                  sx={{ mr: 1 }}
+                  thickness={6}
+                  color="secondary"
+                />
+              )}
+              <Tooltip title="Minha cidade">
+                <IconButton
+                  disabled={searching}
+                  onClick={handleClickMyLocation}
+                  color="primary"
+                >
+                  <MyLocation />
+                </IconButton>
+              </Tooltip>
+              {Boolean(query) && (
                 <IconButton onClick={handleClear}>
                   <Close />
                 </IconButton>
-              </InputAdornment>
-            )
+              )}
+            </InputAdornment>
           }
           placeholder="Pesquise por cidades"
           sx={{
@@ -136,7 +165,7 @@ const WeatherSearchBar = () => {
             width: "100%",
           }}
         />
-        {visibleSuggestions && (
+        {focusing && (
           <SuggestionsList
             suggestions={suggestions}
             onSelect={handleSelectSuggestion}
@@ -144,7 +173,7 @@ const WeatherSearchBar = () => {
         )}
       </Paper>
       <Backdrop
-        open={visibleSuggestions}
+        open={focusing}
         onClick={() => setFocusing(false)}
         slotProps={{
           root: {

@@ -1,4 +1,4 @@
 export interface Suggestion {
   description: string;
-  place_id: string;
+  place_id?: string;
 }

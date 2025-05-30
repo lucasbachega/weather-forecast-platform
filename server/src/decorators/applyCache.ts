@@ -15,6 +15,7 @@ export function applyCache(controller: any, expiresInSeconds: number = 15) {
           cache.set(key, data);
           return res.json(data);
         },
+        status: res?.status
       });
     }
   };
