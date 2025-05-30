@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
-    getForecastByCity,
-    getWeatherByCity,
+  getForecastByCity,
+  getWeatherByCity,
 } from "../services/weather.service";
 import { groupForecastByDay } from "../utils/forecastParser";
 
