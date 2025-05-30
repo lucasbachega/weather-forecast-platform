@@ -9,6 +9,10 @@ export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
+    if (!JWT_SECRET) {
+      throw Error("JWT_SECRET inválido");
+    }
+
     const user = await User.findOne({ email });
     if (!user) {
       res.status(404).json({ message: "Usuário não encontrado." });
@@ -52,5 +56,23 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
     res.status(201).json({ message: "Usuário criado com sucesso." });
   } catch (err) {
     res.status(500).json({ message: "Erro ao registrar usuário." });
+  }
+};
+
+export const getUserProfile = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const userId = (req as any).userId;
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      res.status(404).json({ message: "Usuário não encontrado" });
+      return;
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Erro ao buscar usuário" });
   }
 };

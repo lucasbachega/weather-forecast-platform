@@ -1,5 +1,6 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import AppContainer from "./components/layout/AppContainer";
 import AppRoutes from "./routes/AppRoutes";
@@ -16,9 +17,11 @@ function App() {
         noSsr
       >
         <CssBaseline />
-        <AppContainer>
-          <AppRoutes />
-        </AppContainer>
+        <BrowserRouter>
+          <AppContainer>
+            <AppRoutes />
+          </AppContainer>
+        </BrowserRouter>
       </ThemeProvider>
     </Provider>
   );

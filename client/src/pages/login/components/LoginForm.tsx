@@ -34,7 +34,7 @@ const LoginForm = () => {
       const { token, user } = res.data;
 
       // salva no redux
-      dispatch(loginSuccess({ user, token }));
+      dispatch(loginSuccess(user));
       // salva localmente
       localStorage.setItem("token", token);
 
