@@ -1,66 +1,64 @@
-import { createTheme, responsiveFontSizes } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
-export const theme = responsiveFontSizes(
-  createTheme({
-    cssVariables: {
-      colorSchemeSelector: "class",
-      disableCssColorScheme: true,
+export const theme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: "class",
+    disableCssColorScheme: true,
+  },
+  typography: {
+    fontFamily: '"Inter", sans-serif',
+    allVariants: {
+      fontWeight: 500,
     },
-    typography: {
-      fontFamily: '"Inter", sans-serif',
-      allVariants: {
-        fontWeight: 500,
-      },
-      button: {
-        textTransform: "none",
-        fontWeight: 600,
-        fontSize: ".975rem",
-      },
+    button: {
+      textTransform: "none",
+      fontWeight: 600,
+      fontSize: ".975rem",
     },
-    shape: {
-      borderRadius: 10,
-    },
-    components: {
-      MuiTypography: {
-        defaultProps: {
-          color: "text.primary",
-        },
-      },
-      MuiButton: {
-        defaultProps: {
-          disableElevation: true,
-        },
-        styleOverrides: {
-          root: {
-            transition: "none",
-            borderRadius: "100px",
-          },
-        },
+  },
+  shape: {
+    borderRadius: 10,
+  },
+  components: {
+    MuiTypography: {
+      defaultProps: {
+        color: "text.primary",
       },
     },
-    colorSchemes: {
-      light: {
-        palette: {
-          backgroundPrimary: {
-            main: "#f1f3fd",
-          },
-          text: {
-            primary: "#0D0D0D",
-            secondary: "#69666F",
-          },
-        },
+    MuiButton: {
+      defaultProps: {
+        disableElevation: true,
       },
-      dark: {
-        palette: {
-          backgroundPrimary: {
-            main: "#000",
-          },
-          text: {
-            primary: "#FFF",
-            secondary: "#EBE9F0",
-          },
+      styleOverrides: {
+        root: {
+          transition: "none",
+          borderRadius: "100px",
         },
       },
     },
-  })
-);
+  },
+  colorSchemes: {
+    light: {
+      palette: {
+        backgroundPrimary: {
+          main: "#f1f3fd",
+        },
+        text: {
+          primary: "#0D0D0D",
+          secondary: "#69666F",
+        },
+      },
+    },
+    dark: {
+      palette: {
+        backgroundPrimary: {
+          main: "#000",
+        },
+        text: {
+          primary: "#FFF",
+          secondary: "#EBE9F0",
+        },
+      },
+    },
+  },
+});

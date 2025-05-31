@@ -1,8 +1,6 @@
-import { CircularProgress, Grid, Stack, Typography } from "@mui/material";
-import Lottie from "lottie-react";
-import { useEffect, useState } from "react";
+import { Grid } from "@mui/material";
+import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import LottieNoQuery from "../../../assets/lottie/no-query.json";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 import {
   fetchWeatherData,
@@ -13,100 +11,61 @@ import DailyMessageAlert from "./DailyMessageAlert";
 import ForecastDetails from "./forecast/ForecastDetails";
 import ErrorInfo from "./layout/ErrorInfo";
 import WeatherDetails from "./weather/WeatherDetails";
+import NoSelectedContent from "./layout/NoSelectedContent";
 
 const DetailsContainer = () => {
   const dispatch = useAppDispatch();
   const [params] = useSearchParams();
+
+  const URLCity = params.get("city");
+
   const [loadingCurrentPosition, setLoadingCurrentPosition] = useState(false);
+
   const { error, loading, selectedQuery, weather, forecast } = useAppSelector(
     (state) => state.weather
   );
 
-  const isReadyToRender =
-    !loading &&
-    !loadingCurrentPosition &&
-    Boolean(selectedQuery) &&
-    Boolean(weather);
+  const isLoading = loading || loadingCurrentPosition;
+  const isReady = !isLoading && selectedQuery && weather;
 
-  const detectUserCity = async () => {
+  const detectUserCity = useCallback(async () => {
     setLoadingCurrentPosition(true);
-    const city = await getUserCurrentCity();
-    if (!selectedQuery && city) {
-      dispatch(setSelectedQuery(city));
+    try {
+      const city = await getUserCurrentCity();
+      if (city) {
+        dispatch(setSelectedQuery(city));
+      }
+    } finally {
+      setLoadingCurrentPosition(false);
     }
-    setLoadingCurrentPosition(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (selectedQuery) {
       dispatch(fetchWeatherData(selectedQuery));
-    } else {
-      if (!params.get("city")) {
-        detectUserCity();
-      }
+    } else if (!URLCity) {
+      detectUserCity();
     }
   }, [selectedQuery]);
 
-  if (!weather && !selectedQuery && !loadingCurrentPosition && !loading) {
-    return (
-      <Stack
-        width={"100%"}
-        minHeight={300}
-        alignItems={"center"}
-        justifyContent={"center"}
-      >
-        <Lottie
-          animationData={LottieNoQuery}
-          autoPlay
-          loop
-          style={{ height: "300px" }}
-        />
-        <Typography
-          gutterBottom
-          textAlign={"center"}
-          fontWeight={600}
-          variant="h4"
-          maxWidth={400}
-        >
-          Como está o tempo aí?
-        </Typography>
-        <Typography
-          textAlign={"center"}
-          maxWidth={370}
-          variant="body1"
-          color="textSecondary"
-        >
-          Ative sua localização para ver a previsão do tempo da sua região em
-          tempo real
-        </Typography>
-      </Stack>
-    );
-  }
-
-  if (!isReadyToRender) {
-    return (
-      <Stack
-        width={"100%"}
-        height={200}
-        alignItems={"center"}
-        justifyContent={"center"}
-      >
-        <CircularProgress />
-      </Stack>
-    );
-  }
   if (error) return <ErrorInfo error={error} />;
 
-  if (!selectedQuery && !weather && !loading && !loadingCurrentPosition) {
-    return null;
+  if (!weather && !selectedQuery && !isLoading) {
+    return <NoSelectedContent />;
   }
 
   return (
-    <Grid spacing={2} container size={12} mt={"30px"}>
-      <Grid size={5}>{weather && <WeatherDetails data={weather} />}</Grid>
-      <Grid size={7} container>
-        {weather && <DailyMessageAlert data={weather} />}
-        <ForecastDetails data={forecast} />
+    <Grid container spacing={2} mt={3} size={12}>
+      <Grid size={{ xs: 12, md: 5 }}>
+        <WeatherDetails loading={!isReady} data={weather} />
+      </Grid>
+      <Grid size={{ xs: 12, md: 7 }} container direction="column">
+        <Grid size={12}>
+          <DailyMessageAlert loading={!isReady} data={weather} />
+        </Grid>
+        <Grid size={12}>
+          <ForecastDetails data={forecast} loading={!isReady} />
+        </Grid>
       </Grid>
     </Grid>
   );

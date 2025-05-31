@@ -17,7 +17,7 @@ const PasswordInput = ({ ...rest }: TextFieldProps) => {
           endAdornment: (
             <InputAdornment position="end">
               <IconButton onClick={() => setHidden(!hidden)}>
-                {hidden ? <VisibilityOff /> : <Visibility />}
+                {!hidden ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
           ),

@@ -5,7 +5,7 @@ import RegisterForm from "./components/RegisterForm";
 export default () => {
   return (
     <Box>
-       <Container sx={{ pt: "100px" }} maxWidth="xs">
+      <Container sx={{ pt: "100px", pb: "50px" }} maxWidth="xs">
         <Stack mb={2} alignItems={"center"}>
           <Logo />
         </Stack>

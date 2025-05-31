@@ -1,4 +1,3 @@
-import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
@@ -17,7 +16,7 @@ app.use(
   })
 );
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use("/api", routes);
 
 const PORT = process.env.PORT || 5000;
