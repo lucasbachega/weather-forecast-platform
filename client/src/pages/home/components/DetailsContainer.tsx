@@ -1,6 +1,8 @@
-import { CircularProgress, Grid, Stack } from "@mui/material";
+import { CircularProgress, Grid, Stack, Typography } from "@mui/material";
+import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import LottieNoQuery from "../../../assets/lottie/no-query.json";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 import {
   fetchWeatherData,
@@ -45,6 +47,42 @@ const DetailsContainer = () => {
     }
   }, [selectedQuery]);
 
+  if (!weather && !selectedQuery && !loadingCurrentPosition && !loading) {
+    return (
+      <Stack
+        width={"100%"}
+        minHeight={300}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <Lottie
+          animationData={LottieNoQuery}
+          autoPlay
+          loop
+          style={{ height: "300px" }}
+        />
+        <Typography
+          gutterBottom
+          textAlign={"center"}
+          fontWeight={600}
+          variant="h4"
+          maxWidth={400}
+        >
+          Como está o tempo aí?
+        </Typography>
+        <Typography
+          textAlign={"center"}
+          maxWidth={370}
+          variant="body1"
+          color="textSecondary"
+        >
+          Ative sua localização para ver a previsão do tempo da sua região em
+          tempo real
+        </Typography>
+      </Stack>
+    );
+  }
+
   if (!isReadyToRender) {
     return (
       <Stack
@@ -67,7 +105,7 @@ const DetailsContainer = () => {
     <Grid spacing={2} container size={12} mt={"30px"}>
       <Grid size={5}>{weather && <WeatherDetails data={weather} />}</Grid>
       <Grid size={7} container>
-        <DailyMessageAlert data={weather} />
+        {weather && <DailyMessageAlert data={weather} />}
         <ForecastDetails data={forecast} />
       </Grid>
     </Grid>
