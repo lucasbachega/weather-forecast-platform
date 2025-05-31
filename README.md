@@ -97,6 +97,17 @@ npm run test
 
 ---
 
+### Usuário padrão para testes
+
+Se preferir não criar uma conta manualmente, um usuário padrão é criado automaticamente na inicialização do backend:
+
+- **Email:** `admin@email.com`  
+- **Senha:** `senha123`
+
+Você pode utilizá-lo para testar o login e rotas protegidas.
+
+---
+
 ## Observações finais
 
 - A API segue padrão RESTful com rotas centralizadas sob `/api`, utilizando autenticação com **JWT**.
