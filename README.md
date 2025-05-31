@@ -1,4 +1,4 @@
-# 🌤 Previsão do tempo - Weather App
+# Previsão do tempo - Weather App
 
 App de previsão do tempo desenvolvida como teste técnico, com frontend em **React + Vite + Redux** e backend em **Node.js + Express + MongoDB**, seguindo os requisitos definidos.
 
@@ -19,27 +19,27 @@ App de previsão do tempo desenvolvida como teste técnico, com frontend em **Re
 ## 🌐 Link para testar online
 
 > Acesse a aplicação no Vercel:
-[https://weather-forecast-platform.vercel.app](https://weather-forecast-platform.vercel.app)
+> [https://weather-forecast-platform.vercel.app](https://weather-forecast-platform.vercel.app)
 
 ---
 
-## 🛠️ Como rodar localmente
+## Como rodar localmente
 
-### 🔧 1. Clone o projeto
+### 1. Clone o projeto
 
 ```bash
 git clone https://github.com/lucasbachega/weather-forecast-platform.git
 cd weather-forecast-platform
 ```
 
-### 🔧 2. Instale as dependências
+### 2. Instale as dependências
 
 ```bash
 npm install
 cd ../server && npm install
 ```
 
-### 🔧 3. Configure as variáveis de ambiente
+### 3. Configure as variáveis de ambiente
 
 Crie um arquivo `.env` dentro da pasta `server` com base no exemplo abaixo:
 
@@ -51,15 +51,14 @@ WEATHER_API_KEY=chave_api_OpenWeather
 GOOGLE_API_KEY=chave_api_GooglePlaces
 ```
 
-
-### 🔧 4. Inicie o backend
+### 4. Inicie o backend
 
 ```bash
 cd server
 npm run dev
 ```
 
-### 🔧 5. Inicie o frontend (Raiz do projeto)
+### 5. Inicie o frontend (Raiz do projeto)
 
 ```bash
 npm run dev
@@ -67,7 +66,26 @@ npm run dev
 
 ---
 
-## 📁 Estrutura do projeto
+## Testes Automatizados
+
+O projeto inclui alguns testes principais com [Jest](https://jestjs.io/)
+
+### Como executar os testes
+
+Certifique-se de que:
+- O banco de dados MongoDB (local ou remoto) esteja configurado via `.env`
+- Você já tenha rodado `npm install` dentro da pasta `server/`
+
+Em seguida:
+
+```bash
+cd server
+npm run test
+```
+
+---
+
+## Estrutura do projeto
 
 ```
 /
@@ -79,7 +97,7 @@ npm run dev
 
 ---
 
-## 📌 Observações finais
+## Observações finais
 
 - A API segue padrão RESTful com rotas centralizadas sob `/api`, utilizando autenticação com **JWT**.
 - Estou ciente de que existem abordagens mais seguras para autenticação (como o uso de cookies `HttpOnly`, rotas protegidas por middleware avançado, e refresh tokens), bem como técnicas mais robustas para o armazenamento de tokens. Para este projeto, priorizei a implementação completa e funcional da lógica central do teste, cobrindo o ciclo completo de autenticação, consumo de API externa e persistência.
@@ -87,8 +105,9 @@ npm run dev
 - Em contextos, consideraria também otimizações como cache local de previsões e outras melhorias mais refinadas.
 - Este é um projeto em que, normalmente, eu não utilizaria Redux, mas aproveitei a oportunidade para demonstrar o uso do Redux Toolkit com `createAsyncThunk` e gerenciamento de estado global de forma estruturada.
 - Além disso, em outro cenário, eu também consideraria uma arquitetura baseada em Next.js, permitindo que o usuário utilize a aplicação sem estar logado inicialmente, e lidando com o fluxo de autenticação apenas no momento em que ele realiza ações protegidas.
+- Adicionei minhas próprias imagens para informar o clima (nuvens, sol, etc). Desculpe se por acaso não aparecer alguma. Testei bastante rsrs
 
-🗓 Entregue em: **May 31, 2025**
+Entregue em: **Sáb. 31 de mai. 2025**
 
 ---
 
