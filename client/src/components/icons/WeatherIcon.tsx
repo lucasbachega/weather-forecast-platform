@@ -16,7 +16,7 @@ const WeatherIcon = ({
   return (
     <Box
       component="img"
-      src={`client/src/assets/weather-icons/${iconCode}.png`}
+      src={`/weather-icons/${iconCode}.png`}
       alt={alt}
       width={width}
       height={height}
