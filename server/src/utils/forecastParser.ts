@@ -1,5 +1,6 @@
 import { isSameDay, parseISO } from "date-fns";
 
+// Função para formatar os dados de forecast para prox. dias
 export function groupForecastByDay(forecastList: any[]) {
   const grouped: Record<string, any[]> = {};
   const today = new Date();

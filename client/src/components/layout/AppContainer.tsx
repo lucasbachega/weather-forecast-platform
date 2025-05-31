@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Stack } from "@mui/material";
+import { Box, CircularProgress, Stack, useColorScheme } from "@mui/material";
 import { useEffect, useState, type ReactNode } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ interface Props {
 const AppContainer = ({ children }: Props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { mode } = useColorScheme();
   const [loading, setLoading] = useState(true);
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
@@ -26,11 +27,15 @@ const AppContainer = ({ children }: Props) => {
     })();
   }, []);
 
+  useEffect(() => {
+    document.body.style.backgroundColor = mode === "dark" ? "#000" : "#f1f3fd";
+  }, [mode]);
+
   return (
     <Box
       component={"main"}
       bgcolor={"backgroundPrimary.main"}
-      height={"100%"}
+      flex={1}
       width={"100%"}
     >
       {loading ? (

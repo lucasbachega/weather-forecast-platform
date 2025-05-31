@@ -6,7 +6,7 @@ import DetailsContainer from "./components/DetailsContainer";
 export default () => {
   const user = useAppSelector((state) => state.auth.user);
   return (
-    <Container sx={{ pt: "20px", pb: "100px" }} maxWidth="md">
+    <Container sx={{ pt: "20px", pb: "200px" }} maxWidth="md">
       <Typography mb={0.3} variant="h4" textAlign={"center"} fontWeight={700}>
         Olá, {user?.name}.
       </Typography>

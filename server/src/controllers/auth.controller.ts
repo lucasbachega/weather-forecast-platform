@@ -15,18 +15,17 @@ export const login = async (req: Request, res: Response) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(404).json({ message: "Usuário não encontrado." });
+      res.status(404).json({ message: "E-mail ou senha inválidos" });
       return;
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      res.status(401).json({ message: "Senha incorreta." });
+      res.status(401).json({ message: "E-mail ou senha inválidos" });
       return;
     }
 
     //JWT token
-
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
       expiresIn: "1d",
     });
@@ -36,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
       user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
-    res.status(500).json({ message: "Erro ao fazer login" });
+    res.status(500).json({ message: "Erro inesperado ao fazer login" });
   }
 };
 
@@ -46,7 +45,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-      res.status(400).json({ message: "Todos os campos são obrigatórios." });
+      res.status(400).json({ message: "Todos os campos são obrigatórios" });
       return;
     }
 
@@ -56,7 +55,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      res.status(409).json({ message: "Email já cadastrado." });
+      res.status(409).json({ message: "E-mail já cadastrado" });
       return;
     }
 
@@ -81,7 +80,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Erro ao criar conta" });
+    res.status(500).json({ message: "Erro inesperado ao criar conta" });
   }
 };
 

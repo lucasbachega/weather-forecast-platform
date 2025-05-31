@@ -103,8 +103,8 @@ const WeatherSearchBar = () => {
           display: "flex",
           alignItems: "center",
           height: 50,
-          maxWidth: 600,
-          minWidth: 500,
+          maxWidth: 540,
+          width: '100%',
           boxShadow: focusing
             ? `0 0px 20px rgba(34, 105, 239, 0.3)`
             : `0 0px 3px rgba(34, 105, 239, 0.2)`,

@@ -24,7 +24,7 @@ export const verifyToken = (
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    res.status(401).json({ message: "Token ausente" });
+    res.status(401).json({ message: "Usuário não autenticado" });
     return;
   }
 
@@ -35,6 +35,8 @@ export const verifyToken = (
     req.userId = decoded.userId;
     next();
   } catch (err) {
-    res.status(403).json({ message: "Token inválido" });
+    res
+      .status(403)
+      .json({ message: "O acesso expirou. Faça login novamente" });
   }
 };

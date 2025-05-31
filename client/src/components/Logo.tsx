@@ -9,7 +9,6 @@ const Logo = () => {
         variant="h5"
         fontWeight={700}
         sx={{
-          fontSize: "clamp(3rem, 2.354rem + 2.7562vw, 5rem)",
           textWrap: "balance",
           letterSpacing: "-0.025em",
           display: "block",
