@@ -31,7 +31,11 @@ const AppContainer = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
-    document.body.style.backgroundColor = mode === "dark" ? "#000" : "#f1f3fd";
+    if (mode === "light") {
+      document.body.style.backgroundColor = "#f1f3fd";
+    } else {
+      document.body.style.backgroundColor = "#000";
+    }
   }, [mode]);
 
   return (
