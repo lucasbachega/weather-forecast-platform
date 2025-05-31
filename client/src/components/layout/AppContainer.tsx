@@ -4,7 +4,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { loadUser } from "../../services/auth/loadUser";
+import { resetSearchHistory } from "../../store/reducers/weatherSlice";
 import Header from "../header/Header";
+import PersonalBrand from "../PersonalBrand";
 
 interface Props {
   children: ReactNode;
@@ -21,6 +23,7 @@ const AppContainer = ({ children }: Props) => {
     (async () => {
       const loggedIn = await loadUser(dispatch);
       if (!loggedIn) {
+        dispatch(resetSearchHistory());
         navigate("/login");
       }
       setLoading(false);
@@ -37,6 +40,7 @@ const AppContainer = ({ children }: Props) => {
       bgcolor={"backgroundPrimary.main"}
       flex={1}
       width={"100%"}
+      pb={"100px"}
     >
       {loading ? (
         <Stack
@@ -53,6 +57,8 @@ const AppContainer = ({ children }: Props) => {
           {children}
         </>
       )}
+
+      <PersonalBrand />
     </Box>
   );
 };

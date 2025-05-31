@@ -104,7 +104,7 @@ const WeatherSearchBar = () => {
           alignItems: "center",
           height: 50,
           maxWidth: 540,
-          width: '100%',
+          width: "100%",
           boxShadow: focusing
             ? `0 0px 20px rgba(34, 105, 239, 0.3)`
             : `0 0px 3px rgba(34, 105, 239, 0.2)`,
@@ -114,6 +114,7 @@ const WeatherSearchBar = () => {
           borderBottomRightRadius: focusing ? 0 : 100,
           borderBottomLeftRadius: focusing ? 0 : 100,
           zIndex: 100,
+          transition: "none",
         }}
       >
         <InputBase

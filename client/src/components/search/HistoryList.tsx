@@ -30,11 +30,11 @@ const HistoryList = ({ history = [], onSelect = () => {} }: Props) => {
 
   if (!history.length && loading) {
     return (
-      <Stack gap={2} px={2} pb={3}>
-        <Skeleton height={27} variant="rounded" width={"60%"} />
-        <Skeleton height={27} variant="rounded" width={"50%"} />
-        <Skeleton height={27} variant="rounded" width={"60%"} />
-        <Skeleton height={27} variant="rounded" width={"40%"} />
+      <Stack gap={1} px={2} pb={3}>
+        <Skeleton height={25} variant="text" width={"60%"} />
+        <Skeleton height={25} variant="text" width={"50%"} />
+        <Skeleton height={25} variant="text" width={"60%"} />
+        <Skeleton height={25} variant="text" width={"40%"} />
       </Stack>
     );
   }

@@ -6,7 +6,7 @@ import {
   IconButton,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -34,9 +34,7 @@ const LoginForm = () => {
 
       const { token, user } = res.data;
 
-      // salva no redux
       dispatch(loginSuccess(user));
-      // salva localmente
       localStorage.setItem("token", token);
 
       navigate("/");

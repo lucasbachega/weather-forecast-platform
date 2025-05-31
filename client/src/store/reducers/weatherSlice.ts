@@ -74,6 +74,9 @@ const weatherSlice = createSlice({
     setSelectedQuery: (state, action: PayloadAction<string>) => {
       state.selectedQuery = action.payload;
     },
+    resetSearchHistory: (state) => {
+      state.searchHistory.data = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -108,7 +111,7 @@ const weatherSlice = createSlice({
   },
 });
 
-export const { setSelectedQuery } = weatherSlice.actions;
+export const { setSelectedQuery, resetSearchHistory } = weatherSlice.actions;
 export default weatherSlice.reducer;
 
 export const selectSearchHistory = (state: RootState) =>

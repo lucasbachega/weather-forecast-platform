@@ -17,8 +17,11 @@ interface Props {
 const SuggestionsList = ({ suggestions = [], onSelect = () => {} }: Props) => {
   const dispatch = useAppDispatch();
   const history = useAppSelector(selectSortedSearchHistory);
+  const loadingHistory = useAppSelector(
+    (state) => state.weather.searchHistory.loading
+  );
 
-  const noOptions = !history.length && !suggestions.length;
+  const noOptions = !history.length && !suggestions.length && !loadingHistory;
 
   const renderItems = useCallback(
     (item: Suggestion) => {
@@ -56,7 +59,7 @@ const SuggestionsList = ({ suggestions = [], onSelect = () => {} }: Props) => {
       left={0}
       width={"100%"}
     >
-      {noOptions && <Typography m={5}>Nada encontrado</Typography>}
+      {noOptions && <Typography m={4}>Nada encontrado</Typography>}
       <List>{suggestions.map(renderItems)}</List>
       {!suggestions.length && (
         <HistoryList history={history} onSelect={onSelect} />

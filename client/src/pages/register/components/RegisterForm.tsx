@@ -3,6 +3,7 @@ import {
   Alert,
   Box,
   Button,
+  FormHelperText,
   IconButton,
   Stack,
   TextField,
@@ -87,6 +88,7 @@ const RegisterForm = () => {
         required
         disabled={loading}
       />
+      <FormHelperText>E-mail somente teste. Não será validado</FormHelperText>
       <PasswordInput
         value={password}
         onChange={(e) => setPassword(e.target.value)}
