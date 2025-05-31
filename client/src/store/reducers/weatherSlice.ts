@@ -38,10 +38,15 @@ const initialState: WeatherState = {
   error: null,
 };
 
+interface FetchWeatherParams {
+  city: string;
+  background?: boolean;
+}
+
 // Thunk para buscar os dados climáticos com base na cidade
 export const fetchWeatherData = createAsyncThunk(
   "weather/fetchWeatherData",
-  async (city: string, { rejectWithValue }) => {
+  async ({ city }: FetchWeatherParams, { rejectWithValue }) => {
     try {
       const [weather, forecast] = await Promise.all([
         getWeatherByCity(city),
@@ -80,8 +85,8 @@ const weatherSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchWeatherData.pending, (state) => {
-        state.loading = true;
+      .addCase(fetchWeatherData.pending, (state, action) => {
+        state.loading = !action.meta.arg.background;
         state.error = null;
       })
       .addCase(fetchWeatherData.fulfilled, (state, action) => {

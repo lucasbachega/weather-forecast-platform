@@ -1,7 +1,8 @@
 import { Grid } from "@mui/material";
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
+import { useWorkManager } from "../../../hooks/useWorkManager";
 import {
   fetchWeatherData,
   setSelectedQuery,
@@ -10,10 +11,13 @@ import { getUserCurrentCity } from "../../../utils/geolocation";
 import DailyMessageAlert from "./DailyMessageAlert";
 import ForecastDetails from "./forecast/ForecastDetails";
 import ErrorInfo from "./layout/ErrorInfo";
-import WeatherDetails from "./weather/WeatherDetails";
 import NoSelectedContent from "./layout/NoSelectedContent";
+import WeatherDetails from "./weather/WeatherDetails";
 
 const DetailsContainer = () => {
+  //Trabalhador em background para atualizar os dados da pesquisa atual: a cada 1 min
+  useWorkManager();
+
   const dispatch = useAppDispatch();
   const [params] = useSearchParams();
 
@@ -42,7 +46,7 @@ const DetailsContainer = () => {
 
   useEffect(() => {
     if (selectedQuery) {
-      dispatch(fetchWeatherData(selectedQuery));
+      dispatch(fetchWeatherData({ city: selectedQuery }));
     } else if (!URLCity) {
       detectUserCity();
     }
