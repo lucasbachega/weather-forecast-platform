@@ -73,17 +73,16 @@ export function generateDailyMessage(data: IWeatherData): string {
     windSpeed,
     humidity,
     tempMax,
-    tempMin,
-    city,
     date,
     sunrise,
     sunset,
   } = data;
 
   const now = new Date(date);
-  const currentHour = now.getHours();
+  // const currentHour = now.getHours();
 
-  const isDaytime = now.getTime() >= sunrise * 1000 && now.getTime() < sunset * 1000;
+  const isDaytime =
+    now.getTime() >= sunrise * 1000 && now.getTime() < sunset * 1000;
 
   // Regras baseadas no clima
   const messages: string[] = [];

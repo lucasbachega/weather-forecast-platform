@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PasswordInput from "../../../components/inputs/PasswordInput";
 import FormBox from "../../../components/layout/FormBox";
 import api from "../../../services/api";
@@ -117,8 +117,7 @@ const RegisterForm = () => {
 
       <Stack direction={"row"} gap={1} mt={2}>
         <Button
-          LinkComponent={Link}
-          to="/login"
+          onClick={() => navigate("/register")}
           disabled={loading}
           variant="text"
         >
