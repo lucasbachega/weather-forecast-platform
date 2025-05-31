@@ -117,7 +117,7 @@ const RegisterForm = () => {
 
       <Stack direction={"row"} gap={1} mt={2}>
         <Button
-          onClick={() => navigate("/register")}
+          onClick={() => navigate("/login")}
           disabled={loading}
           variant="text"
         >
