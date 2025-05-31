@@ -1,54 +1,94 @@
-# React + TypeScript + Vite
+# 🌤 Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+App de previsão do tempo desenvolvida como teste técnico, com frontend em **React + Vite + Redux** e backend em **Node.js + Express + MongoDB**, seguindo os requisitos definidos.
 
-Currently, two official plugins are available:
+## ✅ Funcionalidades implementadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔍 Pesquisa de cidades com sugestão e autocomplete.
+- 📍 Suporte à localização atual (via navegador).
+- 🌤 Exibição do clima atual e previsão para a semana.
+- 💾 Histórico de buscas armazenado no MongoDB.
+- 🔁 Atualização automática em segundo plano com um `WorkManager` customizado.
+- 🔐 Autenticação com JWT (cadastro e login).
+- ⚙️ Separação clara entre frontend (`client/`) e backend (`server/`).
+- 🚀 Deploy completo com frontend na **Vercel** e backend na **Render**.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🌐 Link para testar online
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+> Acesse a aplicação no Vercel:
+[https://weather-forecast-platform.vercel.app](https://weather-forecast-platform.vercel.app)
+
+---
+
+## 🛠️ Como rodar localmente
+
+### 🔧 1. Clone o projeto
+
+```bash
+git clone https://github.com/lucasbachega/weather-forecast-platform.git
+cd weather-forecast-platform
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 🔧 2. Instale as dependências
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
+cd client && npm install
+cd ../server && npm install
 ```
+
+### 🔧 3. Configure as variáveis de ambiente
+
+Crie um arquivo `.env` dentro da pasta `server` com base no exemplo abaixo:
+
+```env
+PORT=9100
+MONGO_URI=mongodb+srv://uri_seu_banco
+JWT_SECRET=seu_segredo
+WEATHER_API_KEY=chave_api_OpenWeather
+GOOGLE_API_KEY=chave_api_GooglePlaces
+```
+
+
+### 🔧 4. Inicie o backend
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+### 🔧 5. Inicie o frontend (Raiz do projeto)
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 📁 Estrutura do projeto
+
+```
+/
+├── client/       # Frontend (Vite + React + Redux)
+├── server/       # Backend (Express + MongoDB + JWT)
+├── public/       # Imagens estáticas (ícones de clima, etc.)
+├── .env          # Variáveis de ambiente unificadas
+```
+
+---
+
+## 📌 Observações finais
+
+- A aplicação utiliza Vite com suporte à importação de imagens dinâmicas via `public/`.
+- O `WorkManager` atualiza previsões em segundo plano com base em `selectedQuery`.
+- Os endpoints da API seguem padrão RESTful em `/api`.
+
+🗓 Entregue em: **May 31, 2025**
+
+---
+
+Desenvolvido com 💙 por Lucas Bachega
