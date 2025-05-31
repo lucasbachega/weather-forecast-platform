@@ -11,7 +11,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: /localhost/,
+    origin: [
+      /localhost/, // dev local
+      "https://weather-forecast-platform.vercel.app", // produção
+    ],
     credentials: true,
   })
 );
