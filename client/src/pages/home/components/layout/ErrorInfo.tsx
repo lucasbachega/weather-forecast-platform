@@ -1,23 +1,42 @@
 import { Stack, Typography } from "@mui/material";
+import Lottie from "lottie-react";
 import { memo } from "react";
+import LottieNoQuery from "../../../../assets/lottie/no-query.json";
 
 interface Props {
-  error: string;
+  error?: string;
 }
 
-const ErrorInfo = ({ error = "" }: Props) => {
+const ErrorInfo = ({}: Props) => {
   return (
     <Stack
-      width={"100%"}
-      height={200}
-      alignItems={"center"}
-      justifyContent={"center"}
+      width="100%"
+      minHeight={300}
+      alignItems="center"
+      justifyContent="center"
     >
-      <Typography fontWeight={600} variant="h5" textAlign={"center"}>
-        Error
+      <Lottie
+        animationData={LottieNoQuery}
+        autoPlay
+        loop
+        style={{ height: 300 }}
+      />
+      <Typography
+        gutterBottom
+        textAlign="center"
+        fontWeight={600}
+        variant="h4"
+        maxWidth={400}
+      >
+        Ops. Nada encontrado
       </Typography>
-      <Typography color="textSecondary" textAlign={"center"}>
-        {error}
+      <Typography
+        textAlign="center"
+        maxWidth={370}
+        variant="body1"
+        color="textSecondary"
+      >
+        Tente buscar por Rio de Janeiro — quem sabe rola uma prainha?
       </Typography>
     </Stack>
   );
