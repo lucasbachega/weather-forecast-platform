@@ -12,7 +12,10 @@ import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import api from "../../services/api";
-import { setSelectedQuery } from "../../store/reducers/weatherSlice";
+import {
+  setSelectedQuery,
+  updateSearchHistoryTimestamp,
+} from "../../store/reducers/weatherSlice";
 import { getUserCurrentCity } from "../../utils/geolocation";
 import SuggestionsList from "./SuggestionsList";
 import type { Suggestion } from "./types";
@@ -68,6 +71,7 @@ const WeatherSearchBar = () => {
       params.set("city", trimmed);
       setParams(params);
       setSearching(false);
+      dispatch(updateSearchHistoryTimestamp(trimmed));
     },
     [params]
   );

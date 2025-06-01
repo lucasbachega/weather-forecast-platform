@@ -82,6 +82,16 @@ const weatherSlice = createSlice({
     resetSearchHistory: (state) => {
       state.searchHistory.data = [];
     },
+    updateSearchHistoryTimestamp: (state, action: PayloadAction<string>) => {
+      const queryToUpdate = action.payload.toLowerCase();
+      const item = state.searchHistory.data?.find(
+        (entry) => entry.query.toLowerCase() === queryToUpdate
+      );
+
+      if (item) {
+        item.searchedAt = new Date();
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -116,7 +126,11 @@ const weatherSlice = createSlice({
   },
 });
 
-export const { setSelectedQuery, resetSearchHistory } = weatherSlice.actions;
+export const {
+  setSelectedQuery,
+  resetSearchHistory,
+  updateSearchHistoryTimestamp,
+} = weatherSlice.actions;
 export default weatherSlice.reducer;
 
 export const selectSearchHistory = (state: RootState) =>

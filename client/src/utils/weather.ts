@@ -16,5 +16,6 @@ export function formatCurrentWeatherData(data: IBaseWeatherData): IWeatherData {
     sunrise: data.sys.sunrise,
     sunset: data.sys.sunset,
     date: new Date(data.dt * 1000).toISOString(),
+    coord: data.coord,
   };
 }

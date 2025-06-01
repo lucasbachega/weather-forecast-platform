@@ -12,7 +12,7 @@ function App() {
     <Provider store={store}>
       <ThemeProvider
         theme={theme}
-        defaultMode="system"
+        defaultMode="light"
         disableTransitionOnChange
         noSsr
       >

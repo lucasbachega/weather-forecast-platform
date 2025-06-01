@@ -51,6 +51,13 @@ WEATHER_API_KEY=chave_api_OpenWeather
 GOOGLE_API_KEY=chave_api_GooglePlaces
 ```
 
+Crie um arquivo `.env` na raiz do projeto com base no exemplo abaixo:
+
+```env
+VITE_API_URL=https://weather-forecast-platform.onrender.com/api
+VITE_GOOGLE_API_KEY=chave_api_GooglePlaces
+```
+
 ### 4. Inicie o backend
 
 ```bash

@@ -21,6 +21,7 @@ function LoadingStack() {
         <Skeleton variant="text" width="50%" height={18} />
         <Skeleton variant="text" width="50%" height={18} />
       </Stack>
+      <Skeleton variant="rounded" width="100%" height={100} />
     </Stack>
   );
 }

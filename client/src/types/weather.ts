@@ -58,6 +58,10 @@ export interface IWeatherData {
   sunrise: number;
   sunset: number;
   date: string;
+  coord: {
+    lon: number;
+    lat: number;
+  };
 }
 
 export interface ISearchHistory {

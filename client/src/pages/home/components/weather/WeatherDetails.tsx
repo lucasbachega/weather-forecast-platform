@@ -1,6 +1,7 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import { memo } from "react";
 import WeatherIcon from "../../../../components/icons/WeatherIcon";
+import Map from "../../../../components/Map";
 import type { IWeatherData } from "../../../../types/weather";
 import { formatDate } from "../../../../utils/date";
 import ContentBox from "../layout/ContentBox";
@@ -57,6 +58,16 @@ const WeatherDetails = ({ data, loading }: Props) => {
             <LabelItem label={"Umidade"}>{data.humidity}%</LabelItem>
             <LabelItem label={"Vento"}>{data.windSpeed} km/h</LabelItem>
           </Stack>
+          {data?.coord?.lat !== undefined && data?.coord?.lon !== undefined && (
+            <Box mt={2}>
+              <Map
+                center={{
+                  lat: data.coord.lat,
+                  lng: data.coord.lon,
+                }}
+              />
+            </Box>
+          )}
         </>
       )}
     </ContentBox>
