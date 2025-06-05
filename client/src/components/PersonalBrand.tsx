@@ -25,7 +25,7 @@ const PersonalBrand = () => {
             L
           </Avatar>
           <Link
-            href="https://www.linkedin.com/in/lucas-bachega-8467b0366/"
+            href="https://www.linkedin.com/in/lucas-bachega-8751101b9/"
             fontWeight={600}
             target="_blank"
           >
